@@ -7,6 +7,8 @@
     Encapsulation - Keeps data and methods close together
     Polymorphism - Interchangeability of components
 
+    *** NEED MORE CLARIFICATION ON THESE CONCEPTS ***
+
 2. A class is a type of thing, either defined by Python (i.e. String, File) or by the user (i.e. Pet).
 
 3. An instance attribute is an attribute specific to the instance/object.
@@ -44,7 +46,7 @@ class Question(object):
         self.correct_answer = correct_answer
 
     def ask_and_evaluate(self):
-        """Prompt user for an answer to the question, returning True/False"""
+        """Prompt user for an answer to the question and return True/False"""
 
         user_answer = raw_input(self.question + " > ")
         # print user_answer == self.correct_answer
@@ -61,7 +63,7 @@ class Exam(object):
         self.questions = []
 
     def add_question(self, question, correct_answer):
-        """Make a question for the exam"""
+        """Make a question for the exam and add to list of questions"""
 
         # Instantiate a Question and append to list of Question objects
         self.questions.append(Question(question, correct_answer))
@@ -79,28 +81,29 @@ class Exam(object):
 
         return score
 
-
-exam = Exam("midterm")
-exam.add_question("Who is Ubermelon's competition?", "Sqysh")
-exam.add_question("What is the method for adding an element to a set?", ".add()")
-exam.administer()
+# # Below lines of code are for testing
+# exam = Exam("midterm")
+# exam.add_question("Who is Ubermelon's competition?", "Sqysh")
+# exam.add_question("What is the method for adding an element to a set?", ".add()")
+# exam.administer()
 
 
 """Part 4: Create an actual exam!"""
 
 
 def take_test(exam, student):
-    """Administers the exam for a student and assigns score to student"""
+    """Administer the exam for a student and assign score to student"""
 
     student.score = exam.administer()
     return student.score
 
 
-jasmine = Student("Jasmine", "Debugger", "0101 Computer Street")
-take_test(exam, jasmine)
+# # Below lines of code are for testing
+# jasmine = Student("Jasmine", "Debugger", "0101 Computer Street")
+# take_test(exam, jasmine)
 
 
-# Not sure if did this function correctly
+# Not sure if did this function correctly based on instructions provided
 def example(exam_name, student_first_name, student_last_name, student_address):
     example_exam = Exam(exam_name)
     example_exam.add_question("What is the capital of Alberta?", "Edmonton")
@@ -110,3 +113,25 @@ def example(exam_name, student_first_name, student_last_name, student_address):
     print take_test(example_exam, example_student)
 
 
+"""Part 5: Inheritance"""
+
+
+class Quiz(Exam):
+    """Quiz
+
+    Quiz is pass/fail
+    Pass if at least half of the questions are answered correctly
+    """
+
+    def administer(self):
+        """Administer all of the quiz's questions and returns True/False for Pass/Fail"""
+
+        if super(Quiz, self).administer() < (len(self.questions)/2):
+            return False
+        else:
+            return True
+
+# # Below lines of code are for testing
+# quiz = Quiz("first quiz")
+# quiz.add_question("Who is Ubermelon's competition?", "Sqysh")
+# quiz.add_question("What is the method for adding an element to a set?", ".add()")
