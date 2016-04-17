@@ -44,31 +44,52 @@ class Question(object):
         self.correct_answer = correct_answer
 
     def ask_and_evaluate(self):
+        """Prompt user for an answer to the question, returning True/False"""
+
         user_answer = raw_input(self.question + " > ")
         # print user_answer == self.correct_answer
         return user_answer == self.correct_answer
 
 
-class Exam(Question):
+class Exam(object):
     """Exam"""
-    questions = []
 
     def __init__(self, name):
         """Initialize exam"""
+
         self.name = name
+        self.questions = []
 
     def add_question(self, question, correct_answer):
-        super(Exam, self).__init__(question, correct_answer)
-        self.questions.append(question)
+        """Make a question for the exam"""
+        # Appends Question to list of Question objects
+        self.questions.append(Question(question, correct_answer))
 
     def administer(self):
+        """Administer all of the exam's questions and return score"""
+
         score = 0
 
-        for self.question in self.questions:
-            if self.ask_and_evaluate() is True:
+        # Loop through each object in the instance's list of Question objects and uses ask_and_evaluate() method on the object
+        for question in self.questions:
+            if question.ask_and_evaluate() is True:
                 score += 1
+            # print score
 
         return score
 
+exam = Exam("midterm")
+exam.add_question("Who is Ubermelon's competition?", "Sqysh")
+exam.add_question("What is the method for adding an element to a set?", ".add()")
+exam.administer()
 
 """Part 4: Create an actual exam!"""
+
+
+def take_test(exam, student):
+    """Administers the exam for a student and assigns score to student"""
+    student.score = exam.administer()
+    return student.score
+
+jasmine = Student("Jasmine", "Debugger", "0101 Computer Street")
+take_test(exam, jasmine)
