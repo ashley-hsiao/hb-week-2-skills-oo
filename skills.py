@@ -62,7 +62,8 @@ class Exam(object):
 
     def add_question(self, question, correct_answer):
         """Make a question for the exam"""
-        # Appends Question to list of Question objects
+
+        # Instantiate a Question and append to list of Question objects
         self.questions.append(Question(question, correct_answer))
 
     def administer(self):
@@ -70,7 +71,7 @@ class Exam(object):
 
         score = 0
 
-        # Loop through each object in the instance's list of Question objects and uses ask_and_evaluate() method on the object
+        # Loop through each object in the instance's list of Question objects and call ask_and_evaluate() method on the object
         for question in self.questions:
             if question.ask_and_evaluate() is True:
                 score += 1
@@ -78,18 +79,34 @@ class Exam(object):
 
         return score
 
+
 exam = Exam("midterm")
 exam.add_question("Who is Ubermelon's competition?", "Sqysh")
 exam.add_question("What is the method for adding an element to a set?", ".add()")
 exam.administer()
+
 
 """Part 4: Create an actual exam!"""
 
 
 def take_test(exam, student):
     """Administers the exam for a student and assigns score to student"""
+
     student.score = exam.administer()
     return student.score
 
+
 jasmine = Student("Jasmine", "Debugger", "0101 Computer Street")
 take_test(exam, jasmine)
+
+
+# Not sure if did this function correctly
+def example(exam_name, student_first_name, student_last_name, student_address):
+    example_exam = Exam(exam_name)
+    example_exam.add_question("What is the capital of Alberta?", "Edmonton")
+    example_exam.add_question("Who is the author of Python?", "Guido Van Rossum")
+    example_exam.add_question("What is Balloonicorn's favorite color?", "Sparkles")
+    example_student = Student(student_first_name, student_last_name, student_address)
+    print take_test(example_exam, example_student)
+
+
